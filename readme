@@ -1,0 +1,8 @@
+
+
+Code repository to replicate Auclert, A., Bardóczy, B., Rognlie, M., & Straub, L. (2021). Using the sequence‐space Jacobian to solve and estimate heterogeneous‐agent models. Econometrica, 89(5), 2375-2408.
+
+- ssj.m computes fake new matrix and replicates figure 2. Also computes general equilibrium response.
+
+- KSsteady.m computes model steady state which inputs to ssj.m [no need to resolve]
+
