@@ -1,8 +1,30 @@
 
-
 Code repository to replicate Auclert, A., Bardóczy, B., Rognlie, M., & Straub, L. (2021). Using the sequence‐space Jacobian to solve and estimate heterogeneous‐agent models. Econometrica, 89(5), 2375-2408.
 
-- ssj.m computes fake new matrix and replicates figure 2. Also computes general equilibrium response.
+The paper is included as a PDF in the repository.
 
-- KSsteady.m computes model steady state which inputs to ssj.m [no need to resolve]
+## Workflow
 
+Run KSsteady.m first to compute and save the steady state, then run ssj.m to compute the Jacobians and impulse responses.
+
+## Files
+
+**KSsteady.m** — Computes the Krusell-Smith model steady state. Solves for the equilibrium interest rate via bisection, iterates on the household policy function to convergence, and computes the ergodic joint distribution over assets and productivity. Saves results to steady.mat.
+
+**ssj.m** — Main script. Loads steady.mat and:
+  1. Computes the Fake News Matrix (FK) for capital with respect to r and w over a T=300 horizon
+  2. Recovers the sequence-space Jacobian (JK) from FK via cumulative summation
+  3. Replicates Figure 2 from the paper (Jacobian and fake news paths)
+  4. Computes the general equilibrium impulse response of capital to a persistent TFP shock (AR(1) with rho=0.9)
+
+**polupdate.m** — Updates household consumption and asset policies given prices, using the endogenous grid method. Returns updated marginal value of capital.
+
+**tranupdate.m** — Constructs the sparse asset transition matrix given the capital policy function, using linear interpolation weights onto the asset grid.
+
+**Tauchen.m** — Discretises an AR(1) process onto a finite Markov chain following Tauchen (1987). Supports four grid types: importance sampling, equi-spaced, simple, and simple importance. Author: Christian Bayer, Uni Bonn.
+
+**transition.m** — Helper used by ExTransitions.m. Computes a transition probability matrix for a given grid via numerical integration of the Gaussian transition kernel.
+
+**ExTransitions.m** — Constructs an extended transition matrix for a productivity process with an additional unemployment/absorption state, used for models with labour market transitions.
+
+**steady.mat** — Saved steady-state output from KSsteady.m. Input to ssj.m (no need to re-solve unless parameters change).
